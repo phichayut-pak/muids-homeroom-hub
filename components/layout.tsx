@@ -120,6 +120,11 @@ const Layout: FC<Layout> = ({ children }) => {
       // for smaller responsive design in this
       if(window.innerWidth >= 640) {
         
+        if(window.innerHeight >= 1050) {
+          const vh = window.innerHeight * 0.05
+          postElement.style.marginTop = `${vh}px`
+        }
+
         if(window.innerHeight < 1050) {
           const vh = window.innerHeight * 0.05
           postElement.style.marginTop = `${vh}px`
