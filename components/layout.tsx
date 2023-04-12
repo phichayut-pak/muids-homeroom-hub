@@ -195,9 +195,10 @@ const Layout: FC<Layout> = ({ children }) => {
     }
   }
 
+
   return (
-    <div className='overflow-x-hidden'>
-      <div className={`relative flex flex-col md:hidden
+    <div className={`${darkMode? 'dark' : ''}  overflow-x-hidden `}>
+      <div className={`relative flex flex-col md:hidden dark:bg-main-dark
       ${padding}
       min-h-screen `}>
         <NavbarMobile darkMode={darkMode} setDarkMode={setDarkMode}/>
@@ -205,7 +206,7 @@ const Layout: FC<Layout> = ({ children }) => {
           { children }
         </div>
       </div>
-      <div className="hidden md:grid grid-cols-10 w-screen h-full">
+      <div className="hidden md:grid grid-cols-10 w-screen h-full dark:bg-secondary-dark">
         <div className='col-span-3 lg:col-span-2'>
           <SideBarDesktop darkMode={darkMode} setDarkMode={setDarkMode} />
         </div>

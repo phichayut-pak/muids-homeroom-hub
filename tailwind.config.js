@@ -20,7 +20,7 @@ module.exports = {
         "main-dark": "#1E2C5A",
         "secondary-dark": "#2C5790",
         "dark-hover": "#313E67"
-      }
+      },
     },
 
   },
