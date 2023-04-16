@@ -32,7 +32,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
 
 
   return (
-    <div className='bg-white dark:bg-[#B8C6CA] flex flex-col justify-center border dark:border-none'>
+    <div className='w-full max-w-[18rem] sm:max-w-none sm:w-auto bg-white dark:bg-[#B8C6CA] flex flex-col justify-center border dark:border-none'>
       {/* Author and Profile Pic */}
       <div className="inline-flex">
         {/* Profile Pic */}
@@ -48,8 +48,8 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
 
       {/* Post Image */}
       <div className='relative mx-auto w-full overflow-hidden flex'>
-        <div className='w-72 h-72 sm:w-96 sm:h-96 bg-black '>
-          <Image src={Shiro} alt="shiro"></Image>
+        <div className='w-72 h-72 sm:w-96 sm:h-96 bg-black'>
+          <Image src={Shiro} alt="shiro" className='object-cover' fill></Image>
         </div>
       </div>
 
