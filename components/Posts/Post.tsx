@@ -1,11 +1,15 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { Heart } from '../Icons/Heart'
+import LeftArrow from '../Icons/LeftArrow'
+import RightArrow from '../Icons/RightArrow'
 import Image from 'next/image'
-import Shiro from '../../public/shiro.jpg'
+import { Transition } from '@headlessui/react'
+
+
 interface Post {
   profile_pic: string,
   author: string,
-  post_pic: string,
+  post_pic: string[],
   like: number,
   time: string,
   title: string,
@@ -15,6 +19,41 @@ interface Post {
 const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, description}) => {
   const [isLiked, setIsLiked] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [slideDirection, setSlideDirection] = useState("right");
+
+
+  const slideTransition = {
+    left: "-100%",
+    right: "100%",
+  }[slideDirection]
+
+  const previousSlide = (): void => {
+    if(currentIndex === 0) {
+      setCurrentIndex(post_pic.length - 1)
+    } else {
+      setCurrentIndex(currentIndex - 1)
+    }
+
+    setSlideDirection("left")
+
+    console.log(slideDirection)
+
+  }
+
+  const nextSlide = () => {
+    if(currentIndex === post_pic.length - 1) {
+      setCurrentIndex(0)
+    } else {
+      setCurrentIndex(currentIndex + 1)
+    }
+    
+    setSlideDirection("right")
+
+    console.log(slideDirection)
+
+  }
+
 
   const splittedDescription = description.split(' ')
   let truncatedDescription
@@ -30,16 +69,24 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
 
   }
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
 
   return (
     <div className='w-full max-w-[18rem] sm:max-w-none sm:w-auto bg-white dark:bg-[#B8C6CA] flex flex-col justify-center border dark:border-none'>
+
       {/* Author and Profile Pic */}
       <div className="inline-flex">
         {/* Profile Pic */}
         <div className='p-3 relative mx-auto w-full overflow-hidden flex space-x-5'>
             <div className='w-10 h-10'>
               <div className='w-full h-full aspect-w-1 aspect-h-1 rounded-full overflow-hidden'>
-                <Image src={Shiro} alt="shiro" className='object-cover w-full h-full'></Image>
+                <Image src={profile_pic} alt="shiro" width={9000} height={9000} className='object-cover w-full h-full'></Image>
               </div>
             </div>
             <div className='mt-1.5 font-mont text-black dark:text-black'>{ author }</div>
@@ -47,9 +94,46 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       </div>
 
       {/* Post Image */}
+      
       <div className='relative mx-auto w-full overflow-hidden flex'>
         <div className='w-72 h-72 sm:w-96 sm:h-96 bg-black'>
-          <Image src={Shiro} alt="shiro" className='object-cover' fill></Image>
+          {post_pic.length === 1 && <Image src={post_pic[0]} alt="" className='object-cover' fill></Image> }
+          {post_pic.length > 1 && 
+            // Desktop Post Slides
+            <div className=' w-full h-full relative transition-all'>
+              
+              {post_pic.map((src, i) => {
+                return (
+                  <Transition
+                    key={i}
+                    show={currentIndex === i}
+                    enter="transition-opacity duration-150"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-150"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Image key={i} src={src} alt="" className={`object-cover transition-all duration-75 `} fill /> 
+                  </Transition>
+
+                )
+              })}
+
+
+
+              {/* Previous Slide Button */}
+              <div onClick={previousSlide} className={`${currentIndex === 0 ? 'hidden' : ''} cursor-pointer transition-all ease-in duration-75 flex justify-center items-center absolute top-1/2 -translate-1/2 left-2  rounded-full bg-gray-300 opacity-80 z-40 p-1`}>
+                <LeftArrow className={"pr-0.5"}></LeftArrow>
+              </div>
+
+              {/* Next Slide Button */}
+              <div onClick={nextSlide} className={`${currentIndex === post_pic.length - 1 ? 'hidden' : ''} cursor-pointer transition-all ease-in duration-75 flex justify-center items-center absolute top-1/2 -translate-1/2 right-2  rounded-full bg-gray-300 opacity-80 z-40 p-1`}>
+                <RightArrow className={"pl-0.5"}></RightArrow>
+              </div>
+            </div>
+
+          }
         </div>
       </div>
 

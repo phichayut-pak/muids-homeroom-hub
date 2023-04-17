@@ -3,3 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.slide-transition {
+  transition: transform 0.5s ease-out;
+}
