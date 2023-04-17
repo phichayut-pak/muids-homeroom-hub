@@ -3,10 +3,11 @@ import type { AppProps } from 'next/app'
 import SideBarDesktop from '../components/Navbar/SideBarDesktop'
 import Layout from '../components/layout'
 import { useRouter } from 'next/router'
+import { register } from 'swiper/element/bundle';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  
+  register()
   return (
     <div className='flex'>
       {router.pathname === "/404" ? "" : 

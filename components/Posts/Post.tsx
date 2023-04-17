@@ -1,10 +1,13 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useRef } from 'react'
 import { Heart } from '../Icons/Heart'
 import LeftArrow from '../Icons/LeftArrow'
 import RightArrow from '../Icons/RightArrow'
 import Image from 'next/image'
-import { Transition } from '@headlessui/react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+import 'swiper/css';
 
+SwiperCore.use([Navigation, Pagination]);
 
 interface Post {
   profile_pic: string,
@@ -20,13 +23,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
   const [isLiked, setIsLiked] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [slideDirection, setSlideDirection] = useState("right");
-
-
-  const slideTransition = {
-    left: "-100%",
-    right: "100%",
-  }[slideDirection]
+  const swiperRef: any = useRef();
 
   const previousSlide = (): void => {
     if(currentIndex === 0) {
@@ -35,9 +32,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       setCurrentIndex(currentIndex - 1)
     }
 
-    setSlideDirection("left")
-
-    console.log(slideDirection)
+    swiperRef.current.slidePrev()
 
   }
 
@@ -47,11 +42,8 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
     } else {
       setCurrentIndex(currentIndex + 1)
     }
-    
-    setSlideDirection("right")
 
-    console.log(slideDirection)
-
+    swiperRef.current.slideNext()
   }
 
 
@@ -69,14 +61,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
 
   }
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
-
+  
   return (
     <div className='w-full max-w-[18rem] sm:max-w-none sm:w-auto bg-white dark:bg-[#B8C6CA] flex flex-col justify-center border dark:border-none'>
 
@@ -96,13 +81,14 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       {/* Post Image */}
       
       <div className='relative mx-auto w-full overflow-hidden flex'>
-        <div className='w-72 h-72 sm:w-96 sm:h-96 bg-black'>
+        <div className='w-72 h-72 sm:w-96 sm:h-96 '>
           {post_pic.length === 1 && <Image src={post_pic[0]} alt="" className='object-cover' fill></Image> }
           {post_pic.length > 1 && 
             // Desktop Post Slides
             <div className=' w-full h-full relative transition-all'>
               
-              {post_pic.map((src, i) => {
+              {/* Old version */}
+              {/* {post_pic.map((src, i) => {
                 return (
                   <Transition
                     key={i}
@@ -118,7 +104,28 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
                   </Transition>
 
                 )
-              })}
+              })} */}
+
+              <Swiper
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={0}
+                slidesPerView={1}
+                onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                }}
+                className='w-full h-full'
+              >
+                {post_pic.map((src, i) => {
+                  return (
+                    <SwiperSlide key={i}>
+                      <Image key={i} src={src} alt="" className={`object-cover transition-all duration-75 `} fill /> 
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
+              
 
 
 
