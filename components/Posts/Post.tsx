@@ -147,7 +147,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
                 })}
               </Swiper>
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`${isHeartShown? 'animate-like-heart-animation' : 'hidden'} fill-[#FF3040] stroke-none z-40 w-48 h-48 absolute top-0 right-0 bottom-0 left-0 m-auto`}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`${isHeartShown? 'animate-sm-like-heart-animation md:animate-like-heart-animation' : 'hidden'} fill-[#FF3040] stroke-none z-40 w-48 h-48 absolute top-0 right-0 bottom-0 left-0 m-auto`}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
               
@@ -173,7 +173,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       <div className='flex flex-col justify-center items-center'>
         
         {/* Like and Time */}
-        <div className='inline-flex w-full px-3 py-1 justify-between items-center'>
+        <div className='inline-flex w-full px-3 py-2 justify-between items-center'>
           {/* Inactive Like as default */}
           {/* When user clicks like button, localStorage collects ID of the post that is liked */}
           {/* It then send to the db every one hour */}
@@ -197,7 +197,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
         </div>
 
         {/* User and description */}
-        <div className="flex flex-col w-full px-3 py-1 justify-start ">
+        <div className="flex flex-col w-full px-3 pt-1 pb-3 justify-start ">
           {/* User */}
           <div className="font-mont text-black text-xs font-bold dark:text-black">
             { author }

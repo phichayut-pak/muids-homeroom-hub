@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Post from '../components/Posts/Post'
 import Script from 'next/script'
 import axios from 'axios'
+import SkullPost from '../components/Posts/SkullPost'
 
 
 const Home: NextPage = () => {
@@ -50,6 +51,14 @@ const Home: NextPage = () => {
             <Post key={posts[i]._id} profile_pic={posts[i].profile_pic} author={posts[i].author} post_pic={posts[i].post_pic} like={posts[i].like} time={posts[i].time} title={posts[i].title} description={posts[i].description}></Post>
             )
         })}        
+
+        { !posts && 
+          <>
+            <SkullPost></SkullPost>
+            <SkullPost></SkullPost>
+            <SkullPost></SkullPost>
+          </>
+        }
 
       </div>
       
