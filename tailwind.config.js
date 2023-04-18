@@ -40,7 +40,7 @@ module.exports = {
         },
       },
       animation: {
-        'like-heart-animation': 'like-heart-animation 1s ease-in-out',
+        'like-heart-animation': 'like-heart-animation 1s ease-in-out forwards alternate',
         'like-button-animation': 'like-button-animation 1s ease-in-out'
       }
     },

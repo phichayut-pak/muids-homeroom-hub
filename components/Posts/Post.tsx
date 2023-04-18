@@ -69,7 +69,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       setIsHeartShown(true)
       setTimeout(() => {
         setIsHeartShown(false)
-      }, 950)
+      }, 1000)
     } else {
       setIsHeartShown(false)
     }
