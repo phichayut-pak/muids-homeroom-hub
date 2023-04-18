@@ -3,10 +3,13 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Post from '../components/Posts/Post'
 import Script from 'next/script'
+import axios from 'axios'
 
 
 const Home: NextPage = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false)
+  const [posts, setPosts] = useState<any>()
+
   useEffect(() => {
     themeCheck()
   })
@@ -19,6 +22,18 @@ const Home: NextPage = () => {
     }
   }
 
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await axios.get('/api/posts/get_posts')
+      const data = await response.data
+      
+      setPosts(data.posts)
+      
+    }
+      fetchPosts()
+  })
+
   return (
     <div className={` w-screen  md:h-auto md:w-full flex justify-center items-center`}>
       <Head>
@@ -29,13 +44,12 @@ const Home: NextPage = () => {
 
       <Script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></Script>
       <div className='flex flex-col justify-center items-center w-full md:mt-0 md:py-0 md:my-10 space-y-5'>
-        <Post profile_pic='https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg' author='Pak' post_pic={['https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg', 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F47%2F2020%2F06%2F26%2Ftiny-white-kitten-873941684-2000.jpg']} like={30} time='3 days ago' title='First Test' description='Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil repellat ea eveniet nulla error, dolore, repudiandae sapiente suscipit, odit in ipsam perferendis similique fugit. Debitis cupiditate obcaecati totam minus nobis!
-'></Post>
-<Post profile_pic='https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg' author='Pak' post_pic={['https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg']} like={30} time='3 days ago' title='First Test' description='Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil repellat ea eveniet nulla error, dolore, repudiandae sapiente suscipit, odit in ipsam perferendis similique fugit. Debitis cupiditate obcaecati totam minus nobis!
-'></Post><Post profile_pic='https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg' author='Pak' post_pic={['https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg']} like={30} time='3 days ago' title='First Test' description='Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil repellat ea eveniet nulla error, dolore, repudiandae sapiente suscipit, odit in ipsam perferendis similique fugit. Debitis cupiditate obcaecati totam minus nobis!
-'></Post><Post profile_pic='https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg' author='Pak' post_pic={['https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg']} like={30} time='3 days ago' title='First Test' description='Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil repellat ea eveniet nulla error, dolore, repudiandae sapiente suscipit, odit in ipsam perferendis similique fugit. Debitis cupiditate obcaecati totam minus nobis!
-'></Post><Post profile_pic='https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg' author='Pak' post_pic={['https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200d/0_PUSS-IN-BOOTS.jpg']} like={30} time='3 days ago' title='First Test' description='Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil repellat ea eveniet nulla error, dolore, repudiandae sapiente suscipit, odit in ipsam perferendis similique fugit. Debitis cupiditate obcaecati totam minus nobis!
-'></Post>
+        
+        { posts && posts.map((_n: any, i: string | number) => {
+          return (
+            <Post key={posts[i]._id} profile_pic={posts[i].profile_pic} author={posts[i].author} post_pic={posts[i].post_pic} like={posts[i].like} time={posts[i].time} title={posts[i].title} description={posts[i].description}></Post>
+            )
+        })}        
 
       </div>
       
@@ -44,3 +58,5 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+
