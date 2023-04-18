@@ -26,11 +26,11 @@ module.exports = {
       },
       keyframes: {
         'like-heart-animation': {
-          '0%': { opacity: '0', transform: 'scale(0)' },
-          '15%': { opacity: '0.9', transform: 'scale(1.2)'},
-          '30%': { opacity: '0.9', transform: 'scale(0.95)'},
-          '45%, 80%': { opacity: '0.9', transform: 'scale(1)'},
-          '100%': { opacity: '0', transform: 'scale(0)'}
+          '0%': { opacity: '0', transform: 'scale(0)', '-webkit-transform': 'scale(0)'},
+          '15%': { opacity: '0.9', transform: 'scale(1.2)', '-webkit-transform': 'scale(1.2)'},
+          '30%': { opacity: '0.9', transform: 'scale(0.95)', '-webkit-transform': 'scale(0.95)'},
+          '45%, 80%': { opacity: '0.9', transform: 'scale(1)', '-webkit-transform': 'scale(1)'},
+          '100%': { opacity: '0', transform: 'scale(0)', '-webkit-transform': 'scale(0)'}
         },
         'like-button-animation': {
           '0%': { opacity: '0', transform: 'scale(0)' },
@@ -41,7 +41,6 @@ module.exports = {
       },
       animation: {
         'like-heart-animation': 'like-heart-animation 1s ease-in-out',
-        'sm-like-heart-animation': 'like-heart-animation 1s 0.3s ease-in-out',
         'like-button-animation': 'like-button-animation 1s ease-in-out'
       }
     },
