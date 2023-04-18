@@ -24,6 +24,25 @@ module.exports = {
         "secondary-dark": "#2C5790",
         "dark-hover": "#313E67"
       },
+      keyframes: {
+        'like-heart-animation': {
+          '0%': { opacity: '0', transform: 'scale(0)' },
+          '15%': { opacity: '0.9', transform: 'scale(1.2)'},
+          '30%': { opacity: '0.9', transform: 'scale(0.95)'},
+          '45%, 80%': { opacity: '0.9', transform: 'scale(1)'},
+          '100%': { opacity: '0', transform: 'scale(0)'}
+        },
+        'like-button-animation': {
+          '0%': { opacity: '0', transform: 'scale(0)' },
+          '15%': { opacity: '0.9', transform: 'scale(1.2)'},
+          '30%': { transform: 'scale(0.95)'},
+          '45%, 80%': { opacity: '0.9', transform: 'scale(1)'}
+        },
+      },
+      animation: {
+        'like-heart-animation': 'like-heart-animation 1s ease-in-out',
+        'like-button-animation': 'like-button-animation 1s ease-in-out'
+      }
     },
 
   },

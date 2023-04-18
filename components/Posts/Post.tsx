@@ -5,6 +5,7 @@ import RightArrow from '../Icons/RightArrow'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
+import { Transition } from '@headlessui/react'
 import 'swiper/css';
 
 SwiperCore.use([Navigation, Pagination]);
@@ -21,6 +22,7 @@ interface Post {
 
 const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, description}) => {
   const [isLiked, setIsLiked] = useState<boolean>(false)
+  const [isHeartShown, setIsHeartShown] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const swiperRef: any = useRef();
@@ -61,6 +63,18 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
 
   }
 
+  const onPostDoubleClicked = () => {
+    setIsLiked(!isLiked)
+    if(!isLiked) {
+      setIsHeartShown(true)
+      setTimeout(() => {
+        setIsHeartShown(false)
+      }, 950)
+    } else {
+      setIsHeartShown(false)
+    }
+  }
+
   
   return (
     <div className='w-full max-w-[18rem] sm:max-w-none sm:w-auto bg-white dark:bg-[#B8C6CA] flex flex-col justify-center border dark:border-none'>
@@ -82,10 +96,17 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       
       <div className='relative mx-auto w-full overflow-hidden flex'>
         <div className='w-72 h-72 sm:w-96 sm:h-96 '>
-          {post_pic.length === 1 && <Image src={post_pic[0]} alt="" className='object-cover' fill></Image> }
+          {post_pic.length === 1 && 
+            <div onDoubleClick={onPostDoubleClicked} className='w-full h-full relative transition-all'>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`${isHeartShown? 'animate-like-heart-animation' : 'hidden'} fill-[#FF3040] stroke-none z-40 w-48 h-48 absolute top-0 right-0 bottom-0 left-0 m-auto`}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+              <Image src={post_pic[0]} alt="" className='object-cover' fill></Image> 
+            </div>
+          }
           {post_pic.length > 1 && 
             // Desktop Post Slides
-            <div className=' w-full h-full relative transition-all'>
+            <div onDoubleClick={onPostDoubleClicked} className='w-full h-full relative transition-all'>
               
               {/* Old version */}
               {/* {post_pic.map((src, i) => {
@@ -125,6 +146,10 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
                   )
                 })}
               </Swiper>
+
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`${isHeartShown? 'animate-like-heart-animation' : 'hidden'} fill-[#FF3040] stroke-none z-40 w-48 h-48 absolute top-0 right-0 bottom-0 left-0 m-auto`}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
               
 
 
@@ -155,7 +180,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
           {/* Look at ChatGPT for more information */}
 
           {/* Heart Button */}
-          <Heart onClick={onHeartClicked} isActive={isLiked} />
+          <Heart onClick={onHeartClicked} isActive={isLiked} className={`${isLiked ? 'animate-like-button-animation hover:opacity-100' : ''} hover:opacity-50 transition-all duration-100 ease-in-out`} />
 
           {/* Time ago */}
           <div className='font-mont text-black text-xs dark:text-black'>
@@ -186,7 +211,7 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
               <br />
               ...
               <br />
-              <button onClick={onShowClicked} className='text-[#D9D9D9]'>more</button>
+              <button onClick={onShowClicked} className='text-[#D9D9D9] dark:text-gray-500'>more</button>
             </div>
             
             
