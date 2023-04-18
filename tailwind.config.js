@@ -41,7 +41,7 @@ module.exports = {
       },
       animation: {
         'like-heart-animation': 'like-heart-animation 1s ease-in-out',
-        'sm-like-heart-animation': 'like-heart-animation 0.7s ease-in-out',
+        'sm-like-heart-animation': 'like-heart-animation 1s 0.1s ease-in-out',
         'like-button-animation': 'like-button-animation 1s ease-in-out'
       }
     },

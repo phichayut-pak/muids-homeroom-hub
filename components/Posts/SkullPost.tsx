@@ -58,7 +58,7 @@ const SkullPost = () => {
         {/* User and description */}
         <div className="flex flex-col w-full pl-3 pt-1 pb-3 justify-start ">
 
-          <div className="font-mont text-black text-xs max-w-[16rem] sm:max-w-[21rem] md:max-w-[22.5rem] dark:text-black w-96 pr-2 h-36 bg-gray-500 animate-pulse">
+          <div className="font-mont text-black text-xs max-w-[16.5rem] sm:max-w-[22.5rem] dark:text-black w-96 pr-2 h-36 bg-gray-500 animate-pulse">
             
 
           </div>
