@@ -48,7 +48,7 @@ const Home: NextPage = () => {
         
         { posts && posts.map((_n: any, i: string | number) => {
           return (
-            <Post key={posts[i]._id} profile_pic={posts[i].profile_pic} author={posts[i].author} post_pic={posts[i].post_pic} like={posts[i].like} time={posts[i].time} title={posts[i].title} description={posts[i].description}></Post>
+            <Post key={posts[i]._id} _id={posts[i]._id} profile_pic={posts[i].profile_pic} author={posts[i].author} post_pic={posts[i].post_pic} like={posts[i].like} time={posts[i].time} title={posts[i].title} description={posts[i].description}></Post>
             )
         })}        
 

@@ -1,16 +1,18 @@
-import React, { FC, useState, useRef } from 'react'
+import React, { FC, useState, useRef, useEffect } from 'react'
 import { Heart } from '../Icons/Heart'
 import LeftArrow from '../Icons/LeftArrow'
 import RightArrow from '../Icons/RightArrow'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import { Transition } from '@headlessui/react'
 import 'swiper/css';
+import axios from 'axios'
+
 
 SwiperCore.use([Navigation, Pagination]);
 
 interface Post {
+  _id: string,
   profile_pic: string,
   author: string,
   post_pic: string[],
@@ -20,12 +22,13 @@ interface Post {
   description: string
 }
 
-const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, description}) => {
+const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title, description}) => {
   const [isLiked, setIsLiked] = useState<boolean>(false)
   const [isHeartShown, setIsHeartShown] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const swiperRef: any = useRef();
+  const [showLike, setShowLike] = useState<number>(0)
+  const swiperRef: any = useRef(); 
 
   const previousSlide = (): void => {
     if(currentIndex === 0) {
@@ -74,6 +77,31 @@ const Post: FC<Post> = ({ profile_pic, author, post_pic, like, time, title, desc
       setIsHeartShown(false)
     }
   }
+
+  useEffect(() => {
+    if(isLiked) {
+      localStorage.setItem(_id, "true")
+      setShowLike(s => s + 1)
+    } else {
+      localStorage.removeItem(_id)
+      setShowLike(s => s - 1)
+    }
+
+    setTimeout(() => {
+      if(localStorage.getItem(_id)) {
+        storeLiked()
+      }
+    }, 5000)
+
+    const storeLiked = async () => {
+      const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like + 1 })
+      console.log(response.data)
+    }
+
+
+
+
+  }, [_id, isLiked, like])
 
   
   return (

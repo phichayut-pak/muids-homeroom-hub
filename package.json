@@ -26,6 +26,7 @@
     "react-slick": "^0.29.0",
     "react-smart-slider": "^0.1.2",
     "swiper": "^9.2.2",
+    "ws": "^8.13.0",
     "yet-another-react-lightbox": "^3.4.0"
   },
   "devDependencies": {
