@@ -220,7 +220,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
         {/* Likes */}
         <div className="inline-flex w-full px-3 py-1 justify-start items-center">
           <div className="font-mont text-black text-xs dark:text-black">
-            { like } likes
+            { showLike } likes
           </div>
         </div>
 
