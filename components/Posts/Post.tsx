@@ -91,6 +91,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       if(localStorage.getItem(_id)) {
         storeLiked()
       }
+      setShowLike(s => s - 1)
     }, 5000)
 
     const storeLiked = async () => {
