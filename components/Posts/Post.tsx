@@ -27,7 +27,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   const [isHeartShown, setIsHeartShown] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [showLike, setShowLike] = useState<number>(0)
+  const [showLike, setShowLike] = useState<number>(like)
   const swiperRef: any = useRef(); 
 
   const previousSlide = (): void => {
