@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 
 
 SwiperCore.use([Navigation, Pagination]);
@@ -19,11 +20,14 @@ interface Post {
   like: number,
   time: string,
   title: string,
-  description: string
+  description: string,
+  setLikedPosts: any,
+  setUnlikedPosts: any
 }
 
-const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title, description}) => {
-  const [isLiked, setIsLiked] = useState<boolean>(false)
+const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title, description, setLikedPosts,setUnlikedPosts }) => {
+  const { data: session } = useSession()
+  const [isLiked, setIsLiked] = useState<boolean>(session?.user?.postLiked.includes(_id) ? true : false)
   const [isHeartShown, setIsHeartShown] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -78,31 +82,77 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
     }
   }
 
+  // updates likes every time that the user reloads the page
   useEffect(() => {
-    if(isLiked) {
-      localStorage.setItem(_id, "true")
-      setShowLike(s => s + 1)
-    } else {
-      localStorage.removeItem(_id)
-      setShowLike(s => s - 1)
-    }
 
-    setTimeout(() => {
-      if(localStorage.getItem(_id)) {
-        storeLiked()
-        setShowLike(s => s - 1)
-      }
-    }, 5000)
-
-    const storeLiked = async () => {
+    const addLiked = async () => {
       const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like + 1 })
-      console.log(response.data)
+    }
+
+    const removeLiked = async () => {
+      const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like - 1 })
+    }
+
+    // not yet liked
+    // can only add like
+    if(!session?.user?.postLiked.includes(_id)) {
+      if(isLiked) {
+        localStorage.setItem(_id, "true")
+        setShowLike(showLike + 1)  
+      } 
+      
+      if(!isLiked) {
+        localStorage.removeItem(_id)
+        setShowLike(showLike - 1)
+      }
+      
+      if(localStorage.getItem(_id)) {
+        window.addEventListener('beforeunload', addLiked)
+        setLikedPosts((likedPosts: any) => [...likedPosts, _id])
+      } else {
+        setLikedPosts((likedPosts: any) => likedPosts.filter((post: string) => post !== _id))
+      }
     }
 
 
+    // already liked
+    // can only remove like 
+    if(session?.user?.postLiked.includes(_id)) {
+      if(isLiked) {
+        localStorage.removeItem(_id)
+        setShowLike(showLike + 1)
+      }
+
+      if(!isLiked) {
+        localStorage.setItem(_id, "false")
+        setShowLike(showLike - 1)
+      }
+
+      if(localStorage.getItem(_id)) {
+        window.addEventListener('beforeunload', removeLiked)
+        setUnlikedPosts((unlikedPosts: any) => [...unlikedPosts, _id])
+      } else {
+        setUnlikedPosts((unlikedPosts: any) => unlikedPosts.filter((post: string) => post !== _id))
+      }
+    }
 
 
-  }, [_id, isLiked, like])
+    return () => {
+      if(session?.user?.postLiked.includes(_id)) {
+        if(localStorage.getItem(_id)) { 
+          window.removeEventListener('beforeunload', removeLiked)
+        }
+      } 
+      
+      if(!session?.user?.postLiked.includes(_id)) {
+        if(localStorage.getItem(_id)) {
+
+          window.removeEventListener('beforeunload', addLiked)
+        }
+      }
+    }
+  }, [isLiked])
+  
 
   
   return (

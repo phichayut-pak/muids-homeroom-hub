@@ -1,12 +1,12 @@
 import React from 'react'
 import { NextPage } from 'next'
 
-const Schedule: NextPage = () => {
+const Create: NextPage = () => {
   return (
     <div>
-      Schedule
+      Create
     </div>
   )
 }
 
-export default Schedule
+export default Create

@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../../db/connectToDatabase'
+import { connectToDatabase } from "../../../db/connectToDatabase"
 
 const handler = async (req, res) => {
   if(req.method !== 'GET') {

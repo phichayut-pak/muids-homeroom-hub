@@ -7,17 +7,17 @@ const handler = async (req, res) => {
   }
 
   const client = await connectToDatabase()
-  const db = await client.db('posts')
-  const collection = db.collection('posts')
+  const db = await client.db('auth')
+  const collection = db.collection('users')
 
   const result = await collection.updateOne(
     { _id: new ObjectId(req.body._id) },
-    { $set: { like: req.body.like } }
+    { $push: { postLiked: { $each: req.body.likedPosts } } }
   );
 
   res.status(200).json({
-    message: 'Post updated successfully',
-    body: req.body
+    message: 'Liked Posts updated successfully',
+    body: result
   })
 
   client.close()

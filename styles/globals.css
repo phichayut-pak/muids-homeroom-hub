@@ -7,3 +7,30 @@
   transition: transform 0.5s ease-out;
 }
 
+.swal2-title {
+  font-family:'Montserrat', sans-serif;
+}
+
+.swal2-html-container {
+  display: flex !important;
+  flex-direction: column !important; 
+  overflow: hidden !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.swal2-input {
+  width: 8rem !important;
+}
+
+@media (min-width: 270px) {
+  .swal2-input {
+    width: 12rem !important;
+  }
+}
+
+@media (min-width: 340px) { 
+  .swal2-input {
+    width: auto !important;
+  }
+}
