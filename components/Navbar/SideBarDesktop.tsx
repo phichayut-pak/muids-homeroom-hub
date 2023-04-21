@@ -27,7 +27,7 @@ interface SidebarDesktop {
 const SideBarDesktop: FC<SidebarDesktop> = ( { darkMode, setDarkMode } ) => {
 
   const router = useRouter()
-  const { data: session } = useSession()
+  const { data: session }: any = useSession()
 
 
   const onSignIn = () => {

@@ -26,7 +26,7 @@ interface Post {
 }
 
 const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title, description, setLikedPosts,setUnlikedPosts }) => {
-  const { data: session } = useSession()
+  const { data: session }: any = useSession()
   const [isLiked, setIsLiked] = useState<boolean>(session?.user?.postLiked.includes(_id) ? true : false)
   const [isHeartShown, setIsHeartShown] = useState<boolean>(false)
   const [isShown, setIsShown] = useState<boolean>(false)
@@ -63,6 +63,12 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   }
   const onHeartClicked = () => {
     setIsLiked(!isLiked)
+
+    if(!isLiked) {
+      setShowLike(s => s + 1)
+    } else {
+      setShowLike(s => s - 1)
+    }
   }
 
   const onShowClicked = () => {
@@ -73,20 +79,23 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   const onPostDoubleClicked = () => {
     setIsLiked(!isLiked)
     if(!isLiked) {
+      setShowLike(s => s + 1)
       setIsHeartShown(true)
       setTimeout(() => {
         setIsHeartShown(false)
       }, 1000)
     } else {
+      setShowLike(s => s - 1)
       setIsHeartShown(false)
     }
   }
 
   // updates likes every time that the user reloads the page
   useEffect(() => {
-
+    
     const addLiked = async () => {
       const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like + 1 })
+      
     }
 
     const removeLiked = async () => {
@@ -96,14 +105,13 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
     // not yet liked
     // can only add like
     if(!session?.user?.postLiked.includes(_id)) {
+      
       if(isLiked) {
         localStorage.setItem(_id, "true")
-        setShowLike(showLike + 1)  
       } 
       
       if(!isLiked) {
         localStorage.removeItem(_id)
-        setShowLike(showLike - 1)
       }
       
       if(localStorage.getItem(_id)) {
@@ -120,12 +128,12 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
     if(session?.user?.postLiked.includes(_id)) {
       if(isLiked) {
         localStorage.removeItem(_id)
-        setShowLike(showLike + 1)
+
       }
 
       if(!isLiked) {
         localStorage.setItem(_id, "false")
-        setShowLike(showLike - 1)
+
       }
 
       if(localStorage.getItem(_id)) {

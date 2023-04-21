@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const [posts, setPosts] = useState<any>()
   const [likedPosts, setLikedPosts] = useState<string[]>([])
   const [unlikedPosts, setUnlikedPosts] = useState<string[]>([])
-  const { data: session } = useSession()
+  const { data: session }: any = useSession()
 
   useEffect(() => {
     themeCheck()
