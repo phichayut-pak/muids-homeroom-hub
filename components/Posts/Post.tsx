@@ -115,7 +115,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       }
       
       if(localStorage.getItem(_id)) {
-        window.addEventListener('beforeunload', addLiked)
+        window.addEventListener('pagehide', addLiked)
         setLikedPosts((likedPosts: any) => [...likedPosts, _id])
       } else {
         setLikedPosts((likedPosts: any) => likedPosts.filter((post: string) => post !== _id))
@@ -137,7 +137,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       }
 
       if(localStorage.getItem(_id)) {
-        window.addEventListener('beforeunload', removeLiked)
+        window.addEventListener('pagehide', removeLiked)
         setUnlikedPosts((unlikedPosts: any) => [...unlikedPosts, _id])
       } else {
         setUnlikedPosts((unlikedPosts: any) => unlikedPosts.filter((post: string) => post !== _id))
@@ -148,14 +148,14 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
     return () => {
       if(session?.user?.postLiked.includes(_id)) {
         if(localStorage.getItem(_id)) { 
-          window.removeEventListener('beforeunload', removeLiked)
+          window.removeEventListener('pagehide', removeLiked)
         }
       } 
       
       if(!session?.user?.postLiked.includes(_id)) {
         if(localStorage.getItem(_id)) {
 
-          window.removeEventListener('beforeunload', addLiked)
+          window.removeEventListener('pagehide', addLiked)
         }
       }
     }
