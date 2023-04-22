@@ -90,6 +90,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
     }
   }
 
+
   // updates likes every time that the user reloads the page
   useEffect(() => {
     
@@ -102,6 +103,9 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like - 1 })
     }
 
+
+
+    
     // not yet liked
     // can only add like
     if(!session?.user?.postLiked.includes(_id)) {
@@ -115,7 +119,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       }
       
       if(localStorage.getItem(_id)) {
-        window.addEventListener('pagehide', addLiked)
+        window.addEventListener('beforeunload', addLiked)
         setLikedPosts((likedPosts: any) => [...likedPosts, _id])
       } else {
         setLikedPosts((likedPosts: any) => likedPosts.filter((post: string) => post !== _id))
@@ -137,7 +141,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       }
 
       if(localStorage.getItem(_id)) {
-        window.addEventListener('pagehide', removeLiked)
+        window.addEventListener('beforeunload', removeLiked)
         setUnlikedPosts((unlikedPosts: any) => [...unlikedPosts, _id])
       } else {
         setUnlikedPosts((unlikedPosts: any) => unlikedPosts.filter((post: string) => post !== _id))
@@ -145,17 +149,19 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
     }
 
 
+
+
     return () => {
       if(session?.user?.postLiked.includes(_id)) {
         if(localStorage.getItem(_id)) { 
-          window.removeEventListener('pagehide', removeLiked)
+          window.removeEventListener('beforeunload', removeLiked)
         }
       } 
       
       if(!session?.user?.postLiked.includes(_id)) {
         if(localStorage.getItem(_id)) {
 
-          window.removeEventListener('pagehide', addLiked)
+          window.removeEventListener('beforeunload', addLiked)
         }
       }
     }
@@ -242,12 +248,12 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
 
 
               {/* Previous Slide Button */}
-              <div onClick={previousSlide} className={`${currentIndex === 0 ? 'hidden' : ''} cursor-pointer transition-all ease-in duration-75 flex justify-center items-center absolute top-1/2 -translate-1/2 left-2  rounded-full bg-gray-300 opacity-80 z-40 p-1`}>
+              <div onClick={previousSlide} className={`${currentIndex === 0 ? 'hidden' : ''} cursor-pointer transition-all ease-in duration-75 flex justify-center items-center absolute top-1/2 -translate-1/2 left-2  rounded-full bg-gray-300 opacity-80 z-10 p-1`}>
                 <LeftArrow className={"pr-0.5"}></LeftArrow>
               </div>
 
               {/* Next Slide Button */}
-              <div onClick={nextSlide} className={`${currentIndex === post_pic.length - 1 ? 'hidden' : ''} cursor-pointer transition-all ease-in duration-75 flex justify-center items-center absolute top-1/2 -translate-1/2 right-2  rounded-full bg-gray-300 opacity-80 z-40 p-1`}>
+              <div onClick={nextSlide} className={`${currentIndex === post_pic.length - 1 ? 'hidden' : ''} cursor-pointer transition-all ease-in duration-75 flex justify-center items-center absolute top-1/2 -translate-1/2 right-2  rounded-full bg-gray-300 opacity-80 z-10 p-1`}>
                 <RightArrow className={"pl-0.5"}></RightArrow>
               </div>
             </div>
