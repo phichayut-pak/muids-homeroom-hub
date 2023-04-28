@@ -13,22 +13,22 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   register()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-
   Router.events.on('routeChangeStart', () => setLoading(true))
   Router.events.on('routeChangeComplete', () => setLoading(false))
   Router.events.on('routeChangeError', () => setLoading(false))
 
+
   return (
-    <div>
+    <SessionProvider session={pageProps.session}>
       { loading && <Loading /> }
-      { !loading && <SessionProvider session={pageProps.session}>
+      { !loading &&
       <div className='flex'>
         <Layout>
           <Component {...pageProps} />
         </Layout>
       </div>
-    </SessionProvider>}
-    </div>
+    }
+    </SessionProvider>
 
     
   
