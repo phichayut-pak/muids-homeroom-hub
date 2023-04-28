@@ -218,7 +218,7 @@ const Home: NextPage = () => {
 }
 
 export default Home
-export const getServerSideProps = async (context: any) => {
+export const getStaticProps = async (context: any) => {
   const session: any = await getSession(context)
 
   return {
