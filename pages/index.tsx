@@ -43,52 +43,54 @@ const Home: NextPage = () => {
       fetchPosts()
   }, [])
 
-  useEffect(() => {
+  // POST SYSTEM
 
-    const handleSaveLikedPosts = async () => {
-      const response = await axios.patch('/api/posts/addLikedPosts', {
-        _id: session?.user?._id,
-        likedPosts
-      })
-    }
+  // useEffect(() => {
 
-    
-    if(likedPosts.length !== 0) {
-      
-      window.addEventListener('beforeunload', handleSaveLikedPosts)
-    }
-
-    return () => {
-      if(likedPosts.length !== 0) {
-      
-        window.removeEventListener('beforeunload', handleSaveLikedPosts)
-      }
-    }
-  })
-
-  useEffect(() => {
-
-    const handleSaveUnlikedPosts = async () => {
-      const response = await axios.patch('/api/posts/removeLikedPosts', {
-        _id: session?.user?._id,
-        unlikedPosts,
-        currentLikedPosts: session?.user?.postLiked
-      })
-    }
+  //   const handleSaveLikedPosts = async () => {
+  //     const response = await axios.patch('/api/posts/addLikedPosts', {
+  //       _id: session?.user?._id,
+  //       likedPosts
+  //     })
+  //   }
 
     
-    if(unlikedPosts.length !== 0) {
+  //   if(likedPosts.length !== 0) {
       
-      window.addEventListener('beforeunload', handleSaveUnlikedPosts)
-    }
+  //     document.addEventListener('beforeunload', handleSaveLikedPosts)
+  //   }
 
-    return () => {
-      if(unlikedPosts.length !== 0) {
+  //   return () => {
+  //     if(likedPosts.length !== 0) {
       
-        window.removeEventListener('beforeunload', handleSaveUnlikedPosts)
-      }
-    }
-  })
+  //       window.removeEventListener('beforeunload', handleSaveLikedPosts)
+  //     }
+  //   }
+  // })
+
+  // useEffect(() => {
+
+  //   const handleSaveUnlikedPosts = async () => {
+  //     const response = await axios.patch('/api/posts/removeLikedPosts', {
+  //       _id: session?.user?._id,
+  //       unlikedPosts,
+  //       currentLikedPosts: session?.user?.postLiked
+  //     })
+  //   }
+
+    
+  //   if(unlikedPosts.length !== 0) {
+      
+  //     window.addEventListener('beforeunload', handleSaveUnlikedPosts)
+  //   }
+
+  //   return () => {
+  //     if(unlikedPosts.length !== 0) {
+      
+  //       window.removeEventListener('beforeunload', handleSaveUnlikedPosts)
+  //     }
+  //   }
+  // })
 
 
 

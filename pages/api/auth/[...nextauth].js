@@ -64,9 +64,10 @@ export default NextAuth({
 
       const response = await usersCollection.findOne({ _id: new ObjectId(session.user._id) })
 
+
       session.user.postLiked = response.postLiked 
 
-
+      client.close()
       
       
 

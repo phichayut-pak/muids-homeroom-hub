@@ -77,95 +77,95 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   }
 
   const onPostDoubleClicked = () => {
-    setIsLiked(!isLiked)
-    if(!isLiked) {
-      setShowLike(s => s + 1)
-      setIsHeartShown(true)
-      setTimeout(() => {
-        setIsHeartShown(false)
-      }, 1000)
-    } else {
-      setShowLike(s => s - 1)
-      setIsHeartShown(false)
-    }
+    // setIsLiked(!isLiked)
+    // if(!isLiked) {
+    //   setShowLike(s => s + 1)
+    //   setIsHeartShown(true)
+    //   setTimeout(() => {
+    //     setIsHeartShown(false)
+    //   }, 1000)
+    // } else {
+    //   setShowLike(s => s - 1)
+    //   setIsHeartShown(false)
+    // }
   }
 
-
-  useEffect(() => {
+  // POST SYSTEM
+  // useEffect(() => {
     
-    const addLiked = async () => {
-      const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like + 1 })
+  //   const addLiked = async () => {
+  //     const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like + 1 })
       
-    }
+  //   }
 
-    const removeLiked = async () => {
-      const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like - 1 })
-      console.log('remove')
-    }
+  //   const removeLiked = async () => {
+  //     const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like - 1 })
+  //     console.log('remove')
+  //   }
 
 
 
     
-    // not yet liked
-    // can only add like
-    if(!session?.user?.postLiked.includes(_id)) {
+  //   // not yet liked
+  //   // can only add like
+  //   if(!session?.user?.postLiked.includes(_id)) {
       
-      if(isLiked) {
-        localStorage.setItem(_id, "true")
-      } 
+  //     if(isLiked) {
+  //       localStorage.setItem(_id, "true")
+  //     } 
       
-      if(!isLiked) {
-        localStorage.removeItem(_id)
-      }
+  //     if(!isLiked) {
+  //       localStorage.removeItem(_id)
+  //     }
       
-      if(localStorage.getItem(_id)) {
-        addLiked()
-        setLikedPosts((likedPosts: any) => [...likedPosts, _id])
-      } else {
-        setLikedPosts((likedPosts: any) => likedPosts.filter((post: string) => post !== _id))
-      }
-    }
+  //     if(localStorage.getItem(_id)) {
+  //       addLiked()
+  //       setLikedPosts((likedPosts: any) => [...likedPosts, _id])
+  //     } else {
+  //       setLikedPosts((likedPosts: any) => likedPosts.filter((post: string) => post !== _id))
+  //     }
+  //   }
 
 
-    // already liked
-    // can only remove like 
-    if(session?.user?.postLiked.includes(_id)) {
-      if(isLiked) {
-        localStorage.removeItem(_id)
+  //   // already liked
+  //   // can only remove like 
+  //   if(session?.user?.postLiked.includes(_id)) {
+  //     if(isLiked) {
+  //       localStorage.removeItem(_id)
 
-      }
+  //     }
 
-      if(!isLiked) {
-        localStorage.setItem(_id, "false")
+  //     if(!isLiked) {
+  //       localStorage.setItem(_id, "false")
 
-      }
+  //     }
 
-      if(localStorage.getItem(_id)) {
-        removeLiked()
-        setUnlikedPosts((unlikedPosts: any) => [...unlikedPosts, _id])
-      } else {
-        setUnlikedPosts((unlikedPosts: any) => unlikedPosts.filter((post: string) => post !== _id))
-      }
-    }
-
-
+  //     if(localStorage.getItem(_id)) {
+  //       removeLiked()
+  //       setUnlikedPosts((unlikedPosts: any) => [...unlikedPosts, _id])
+  //     } else {
+  //       setUnlikedPosts((unlikedPosts: any) => unlikedPosts.filter((post: string) => post !== _id))
+  //     }
+  //   }
 
 
-    // return () => {
-      // if(session?.user?.postLiked.includes(_id)) {
-      //   if(localStorage.getItem(_id)) {
-      //     window.removeEventListener('beforeunload', removeLiked)
-      //   }
-      // } 
+
+
+  //   // return () => {
+  //     // if(session?.user?.postLiked.includes(_id)) {
+  //     //   if(localStorage.getItem(_id)) {
+  //     //     window.removeEventListener('beforeunload', removeLiked)
+  //     //   }
+  //     // } 
       
-      // if(!session?.user?.postLiked.includes(_id)) {
-      //   if(localStorage.getItem(_id)) {
-      //     window.removeEventListener('beforeunload', addLiked)
-      //   }
-      // }
+  //     // if(!session?.user?.postLiked.includes(_id)) {
+  //     //   if(localStorage.getItem(_id)) {
+  //     //     window.removeEventListener('beforeunload', addLiked)
+  //     //   }
+  //     // }
 
-    // }
-  }, [isLiked])
+  //   // }
+  // }, [isLiked])
   
 
   
@@ -181,7 +181,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
                 <Image src={profile_pic} alt="shiro" width={9000} height={9000} className='object-cover w-full h-full'></Image>
               </div>
             </div>
-            <div className='mt-1.5 font-mont text-black dark:text-black'>{ author }</div>
+            <div className='mt-1.5 font-mont text-black dark:text-black'>{ author } • <span className='font-mont text-gray-800 text-xs '>{ time }</span> </div>
           </div>
       </div>
 
@@ -266,31 +266,31 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       <div className='flex flex-col justify-center items-center'>
         
         {/* Like and Time */}
-        <div className='inline-flex w-full px-3 py-2 justify-between items-center'>
+        {/* <div className='inline-flex w-full px-3 py-2 justify-between items-center'> */}
           {/* Inactive Like as default */}
           {/* When user clicks like button, localStorage collects ID of the post that is liked */}
           {/* It then send to the db every one hour */}
           {/* Look at ChatGPT for more information */}
 
           {/* Heart Button */}
-          <Heart onClick={onHeartClicked} isActive={isLiked} className={`${isLiked ? 'animate-like-button-animation hover:opacity-100' : ''} hover:opacity-50 transition-all duration-100 ease-in-out`} />
+          {/* <Heart onClick={onHeartClicked} isActive={isLiked} className={`${isLiked ? 'animate-like-button-animation hover:opacity-100' : ''} hover:opacity-50 transition-all duration-100 ease-in-out`} /> */}
 
           {/* Time ago */}
-          <div className='font-mont text-black text-xs dark:text-black'>
-            { time }
-          </div>
+          {/* <div className='font-mont text-black text-xs dark:text-black'> */}
+            {/* { time } */}
+          {/* </div> */}
 
-        </div>
+        {/* </div> */}
 
         {/* Likes */}
-        <div className="inline-flex w-full px-3 py-1 justify-start items-center">
+        {/* <div className="inline-flex w-full px-3 py-1 justify-start items-center">
           <div className="font-mont text-black text-xs dark:text-black">
             { showLike } likes
           </div>
-        </div>
+        </div> */}
 
         {/* User and description */}
-        <div className="flex flex-col w-full px-3 pt-1 pb-3 justify-start ">
+        <div className="flex flex-col w-full px-3 pt-5 pb-3 justify-start ">
           {/* User */}
           <div className="font-mont text-black text-xs font-bold dark:text-black">
             { author }
