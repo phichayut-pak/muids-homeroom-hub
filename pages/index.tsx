@@ -9,7 +9,7 @@ import { useSession, getSession } from 'next-auth/react'
 import { Locked } from '../components/Icons/Locked'
 import Swal from 'sweetalert2'
 import { signIn } from 'next-auth/react'
-
+import Loading from '../components/Loading'
 
 
 const Home: NextPage = () => {
@@ -179,7 +179,7 @@ const Home: NextPage = () => {
 
 
 
-      { session && 
+      { status === "authenticated" && session && 
         <div className='flex flex-col justify-center items-center w-full md:mt-0 md:py-0 md:my-10 space-y-5'>
         
 
@@ -201,7 +201,7 @@ const Home: NextPage = () => {
         </div>
       }
       
-      { !session && 
+      { status === "unauthenticated" && !session && 
 
         <div className='flex flex-col justify-center items-center h-screen w-screen space-y-5'>
           <Locked className='w-40 h-40 sm:w-48 sm:h-48 md:h-56 md:w-56 lg:w-72 lg:h-72 text-gray-400 dark:text-gray-300'></Locked>
@@ -213,13 +213,20 @@ const Home: NextPage = () => {
       
       }
 
+      { status === "loading" && 
+        <div>
+          <Loading></Loading>
+        </div>
+      }
+
     </div>
   )
 }
 
 export default Home
-export const getStaticProps = async (context: any) => {
+export const getServerSideProps = async (context: any) => {
   const session: any = await getSession(context)
+
 
   return {
     props: {

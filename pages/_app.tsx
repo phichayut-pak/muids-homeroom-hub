@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { register } from 'swiper/element/bundle';
 import { SessionProvider } from "next-auth/react"
 import Router from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Loading from '../components/Loading'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   Router.events.on('routeChangeError', () => setLoading(false))
 
 
+
   return (
     <SessionProvider session={pageProps.session}>
-      { loading && <Loading /> }
       { !loading &&
       <div className='flex'>
         <Layout>

@@ -91,7 +91,6 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   }
 
 
-  // updates likes every time that the user reloads the page
   useEffect(() => {
     
     const addLiked = async () => {
@@ -101,6 +100,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
 
     const removeLiked = async () => {
       const response = await axios.patch('/api/posts/addLiked', { _id: _id, like: like - 1 })
+      console.log('remove')
     }
 
 
@@ -119,7 +119,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       }
       
       if(localStorage.getItem(_id)) {
-        window.addEventListener('beforeunload', addLiked)
+        addLiked()
         setLikedPosts((likedPosts: any) => [...likedPosts, _id])
       } else {
         setLikedPosts((likedPosts: any) => likedPosts.filter((post: string) => post !== _id))
@@ -141,7 +141,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       }
 
       if(localStorage.getItem(_id)) {
-        window.addEventListener('beforeunload', removeLiked)
+        removeLiked()
         setUnlikedPosts((unlikedPosts: any) => [...unlikedPosts, _id])
       } else {
         setUnlikedPosts((unlikedPosts: any) => unlikedPosts.filter((post: string) => post !== _id))
@@ -151,20 +151,20 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
 
 
 
-    return () => {
-      if(session?.user?.postLiked.includes(_id)) {
-        if(localStorage.getItem(_id)) { 
-          window.removeEventListener('beforeunload', removeLiked)
-        }
-      } 
+    // return () => {
+      // if(session?.user?.postLiked.includes(_id)) {
+      //   if(localStorage.getItem(_id)) {
+      //     window.removeEventListener('beforeunload', removeLiked)
+      //   }
+      // } 
       
-      if(!session?.user?.postLiked.includes(_id)) {
-        if(localStorage.getItem(_id)) {
+      // if(!session?.user?.postLiked.includes(_id)) {
+      //   if(localStorage.getItem(_id)) {
+      //     window.removeEventListener('beforeunload', addLiked)
+      //   }
+      // }
 
-          window.removeEventListener('beforeunload', addLiked)
-        }
-      }
-    }
+    // }
   }, [isLiked])
   
 
