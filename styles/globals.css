@@ -34,3 +34,7 @@
     width: auto !important;
   }
 }
+
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+}

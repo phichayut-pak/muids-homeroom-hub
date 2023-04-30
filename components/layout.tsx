@@ -4,25 +4,29 @@ import SideBarDesktop from './Navbar/SideBarDesktop'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
+
 interface Layout {
   children: any
 }
 
 const Layout: FC<Layout> = ({ children }) => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [darkMode, setDarkMode] = useState<boolean>(false)
   const [padding, setPadding] = useState<string>('')
   const router = useRouter()
   const { pathname } = router
 
+
+
   // Padding and Margin top for the mobile design
+
 
 
   useEffect(() => {
 
-    if(session) {
+    if(status !== 'loading') {
 
-      if(['/', '/create', '/schedule'].includes(pathname)) {
+      if(pathname === '/') {
   
         if(window.innerWidth < 640) {
     
@@ -91,9 +95,9 @@ const Layout: FC<Layout> = ({ children }) => {
     // every windowHeight as much as possible
     // for responsive
     if(postElement) {
-      if(session) {
+      if(status !== 'loading') {
 
-        if(['/', '/create', '/schedule'].includes(pathname)) {
+        if(pathname === '/') {
           // for smallest responsive design in this
           if(window.innerWidth < 640) {
             
@@ -216,25 +220,36 @@ const Layout: FC<Layout> = ({ children }) => {
 
 
   return (
+    
     <div className={`${darkMode? 'dark' : ''}  overflow-x-hidden`}>
-      <div className={`relative flex flex-col md:hidden bg-[#FAFAFA] dark:bg-main-dark
-      ${padding}
-      min-h-screen `}>
-        <NavbarMobile darkMode={darkMode} setDarkMode={setDarkMode}/>
-        <div className={`navbar-post z-0`}>
-          { children }
-        </div>
-      </div>
 
-      <div className="hidden md:grid grid-cols-10 w-screen h-full bg-[#FAFAFA] dark:bg-secondary-dark">
-        <div className='col-span-3 lg:col-span-2'>
-          <SideBarDesktop darkMode={darkMode} setDarkMode={setDarkMode} />
-        </div>
 
-        <div className={`col-span-7 lg:col-span-8 ${session && ['/', '/create', '/schedule'].includes(pathname) ? 'mt-10' : ''} `}>
-          { children }
+        <div className={`relative flex flex-col md:grid grid-cols-10 md:w-screen md:h-full md:dark:bg-secondary-dark bg-[#FAFAFA] dark:bg-main-dark ${status !== 'loading' && padding} min-h-screen `}>
+          <div className="md:hidden block">
+            <NavbarMobile darkMode={darkMode} setDarkMode={setDarkMode}/>
+          </div>
+
+          <div className="col-span-3 lg:col-span-2 hidden md:block">
+            <SideBarDesktop darkMode={darkMode} setDarkMode={setDarkMode} />
+          </div>
+          <div className={`navbar-post z-0 md:col-span-7 lg:col-span-8 ${session && pathname === '/' ? 'md:mt-10' : ''} `}>
+            { children }
+          </div>
         </div>
-      </div>
+      
+      
+
+        {/* <div className="hidden md:grid grid-cols-10 w-screen h-full bg-[#FAFAFA] dark:bg-secondary-dark">
+          <div className='col-span-3 lg:col-span-2'>
+            <SideBarDesktop darkMode={darkMode} setDarkMode={setDarkMode} />
+          </div>
+
+          <div className={`col-span-7 lg:col-span-8 ${session && pathname === '/' ? 'mt-10' : ''} `}>
+            { children }
+          </div>
+        </div> */}
+      
+    
     </div>
   )
 }

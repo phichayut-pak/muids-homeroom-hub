@@ -6,8 +6,10 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
+import "swiper/css/pagination";
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import { format, render, cancel, register } from 'timeago.js';
 
 
 SwiperCore.use([Navigation, Pagination]);
@@ -18,7 +20,7 @@ interface Post {
   author: string,
   post_pic: string[],
   like: number,
-  time: string,
+  time: number,
   title: string,
   description: string,
   setLikedPosts: any,
@@ -181,7 +183,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
                 <Image src={profile_pic} alt="shiro" width={9000} height={9000} className='object-cover w-full h-full'></Image>
               </div>
             </div>
-            <div className='mt-1.5 font-mont text-black dark:text-black'>{ author } • <span className='font-mont text-gray-800 text-xs '>{ time }</span> </div>
+            <div className='mt-1.5 font-mont text-black dark:text-black'>{ author } • <span className='font-mont text-gray-800 text-[0.7rem] sm:text-xs '>{ format(time) }</span> </div>
           </div>
       </div>
 
@@ -222,7 +224,7 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
 
               <Swiper
                 navigation
-                pagination={{ clickable: true }}
+                pagination={true}
                 spaceBetween={0}
                 slidesPerView={1}
                 onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}

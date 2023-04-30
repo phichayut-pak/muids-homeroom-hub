@@ -7,7 +7,8 @@ import { register } from 'swiper/element/bundle';
 import { SessionProvider } from "next-auth/react"
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
-import Loading from '../components/Loading'
+import WholeLoading from '../components/WholeLoading'
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   register()
@@ -16,11 +17,24 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   Router.events.on('routeChangeStart', () => setLoading(true))
   Router.events.on('routeChangeComplete', () => setLoading(false))
   Router.events.on('routeChangeError', () => setLoading(false))
+  const [theme, setTheme] = useState<any>('light')
 
+  useEffect(() => {
+    if(typeof window !== undefined) {
+      setTheme(localStorage.getItem('theme'))
+
+    }
+  })
 
 
   return (
     <SessionProvider session={pageProps.session}>
+        <Head>
+          <title>MUIDS | Homeroom Hub</title>
+          <meta name="description" content="A website to make homeroom easier and better for MUIDS" />
+          <link rel="icon" href="/favicon.ico" />
+      </Head>
+      { loading && <WholeLoading theme={theme} /> }
       { !loading &&
       <div className='flex'>
         <Layout>
