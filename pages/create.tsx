@@ -130,6 +130,7 @@ const Create: NextPage = () => {
           post_pic: urls
         
       })
+
     
       
 
@@ -138,6 +139,10 @@ const Create: NextPage = () => {
     description.current.value = ""
     setFiles([])
     setSubmitState('done')
+    Swal.fire({
+      title: 'Post created successfully!',
+      icon: 'success'
+    })
 
     
   }
