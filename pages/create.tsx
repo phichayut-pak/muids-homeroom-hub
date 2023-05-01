@@ -83,7 +83,7 @@ const Create: NextPage = () => {
 
 
   return (
-    <div className='relative h-screen w-screen md:w-full flex justify-center items-center'>
+    <div className='relative w-screen md:w-full flex justify-center items-center'>
       { status === "unauthenticated" && !session && 
         <div className='flex flex-col justify-center items-center h-screen w-screen space-y-5'>
           <Locked className='w-40 h-40 sm:w-48 sm:h-48 md:h-56 md:w-56 lg:w-72 lg:h-72 text-gray-400 dark:text-gray-300'></Locked>
@@ -102,15 +102,15 @@ const Create: NextPage = () => {
       { status === "authenticated" && 
         <div className='w-full h-full '>
           {/* Mobile */}
-          <div className='p-5 pt-10 absolute flex flex-col justify-start items-start mb-16 inset-10 md:hidden'>
-            
-            {/* Title */}
+          <div className="p-10 pt-20 flex flex-col justify-start items-start md:hidden ">
+
+              {/* Title */}
             <div className='relative font-mont w-full '>
               <div className="text-sm absolute -top-[1.2rem] text-black dark:text-white">Title</div>
               <input ref={title} type="text" placeholder='' className='border dark:border-none text-black dark:bg-white pl-2 p-0.5 h-10 w-full outline-none' />
-            </div>
+            </div> 
 
-            {/* Aythor */}
+            {/* Author */}
             <div className='relative font-mont w-full  mt-8'>
               <div className="text-sm absolute -top-[1.2rem] text-black dark:text-white">Author</div>
               <input ref={author} type="text" placeholder='' className='border dark:border-none text-black dark:bg-white pl-2 p-0.5 h-10 w-full outline-none' />
@@ -122,7 +122,6 @@ const Create: NextPage = () => {
               <textarea ref={description} name="" id="" rows={7} className="border dark:border-none text-black dark:bg-white w-full resize-none outline-none pl-2"></textarea>
             </div>
 
-            {/* Images */}
             <div className="h-full flex flex-col justify-start font-mont text-sm w-full text-white mt-3">
               
               <div className="flex justify-between items-center">
@@ -138,9 +137,17 @@ const Create: NextPage = () => {
 
 
               </div>
-
-              <div className='mt-2 gap-2.5 h-full pb-6 grid grid-rows-2 grid-flow-col justify-items-center items-center '>
+            
+            
+            </div>
                 
+            <div className='mt-2 h-[25rem] w-full mb-6 grid grid-rows-2 grid-flow-col gap-5'>
+
+                  {/* <div className="w-full h-full aspect-w-1 aspect-h-1 relative mx-auto overflow-hidden flex row-span-1 bg-white transition-all ease-in-out duration-100">
+                      <Image src={'https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg'} alt={'cat'} fill className='object-cover'></Image>
+                    </div> */}
+                  
+
                 { files && files.length !== 0 && files.map((_n: any, i: string | number) => {
                   return (
                     <div onClick={() => onFileRemoved(_n)} key={files[i].name} className="w-full h-full aspect-w-1 aspect-h-1 relative mx-auto overflow-hidden flex row-span-1 bg-white transition-all ease-in-out duration-100">
@@ -150,24 +157,18 @@ const Create: NextPage = () => {
                 })
                   
                 }
+            </div>
+            <div className=" w-full flex justify-end items-center mb-16">
+              <div onClick={onSubmit} className="p-2 px-4 text-main-dark bg-white font-mont border dark:border-none">Submit</div>
+            </div>
+              
 
                 
 
-              
-              </div>
-              
-              
-            </div>
-
-            <div className=" w-full flex justify-end items-center">
-              <div onClick={onSubmit} className="p-2 px-4 text-main-dark bg-white font-mont border dark:border-none">Submit</div>
-            </div>
-
-          
           </div>
-          
+
           {/* Desktop */}
-          <div className="hidden md:flex flex-col justify-start items-start p-5 pt-10 absolute inset-[6rem]">
+          <div className="hidden md:flex flex-col justify-start items-start p-10 pt-20 ">
 
             {/* Title && Author */}
             <div className='relative font-mont w-full flex flex-col space-y-8 lg:space-y-0 lg:grid grid-cols-2 grid-flow-row gap-x-5'>
@@ -207,8 +208,13 @@ const Create: NextPage = () => {
 
               </div>
 
-              <div className='mt-2 gap-2.5 h-full pb-6 grid grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 lg:grid-flow-row grid-flow-col justify-items-center items-center '>
-                
+              <div className='mt-2 h-[25rem] w-full mb-6 grid grid-cols-2 grid-flow-row lg:grid-rows-1 lg:grid-cols-none lg:grid-flow-col gap-5'>
+
+                  {/* <div className="w-full h-full aspect-w-1 aspect-h-1 relative mx-auto overflow-hidden flex row-span-1 bg-white transition-all ease-in-out duration-100">
+                      <Image src={'https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg'} alt={'cat'} fill className='object-cover'></Image>
+                    </div> */}
+                  
+
                 { files && files.length !== 0 && files.map((_n: any, i: string | number) => {
                   return (
                     <div onClick={() => onFileRemoved(_n)} key={files[i].name} className="w-full h-full aspect-w-1 aspect-h-1 relative mx-auto overflow-hidden flex row-span-1 bg-white transition-all ease-in-out duration-100">
@@ -218,9 +224,7 @@ const Create: NextPage = () => {
                 })
                   
                 }
-                
-              
-              </div>
+            </div>
               
               
             </div>
@@ -233,8 +237,8 @@ const Create: NextPage = () => {
 
           </div>
         </div>
+          
       }
-
 
     </div>
   )
