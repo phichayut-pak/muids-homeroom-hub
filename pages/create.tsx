@@ -8,7 +8,7 @@ import { FormEvent } from 'react'
 import Loading from '../components/Loading'
 import Image from 'next/image'
 import Swal from 'sweetalert2'
-
+import axios from 'axios'
 
 const Create: NextPage = () => {
   const { data: session, status } = useSession()
@@ -17,6 +17,7 @@ const Create: NextPage = () => {
   const author: any = useRef("")
   const description: any = useRef("")
   const [files, setFiles] = useState<any>([])
+  const [submitState, setSubmitState] = useState<string>('done')
 
 
 
@@ -67,30 +68,93 @@ const Create: NextPage = () => {
     setFiles((prevFiles: any) => prevFiles.filter((files: any) => files !== fileSelected))
   }
 
-  const onSubmit = () => {
-    console.log({
-      title: title.current.value,
-      author: author.current.value,
-      description: description.current.value,
-      files
-    })
+  const onSubmit = async () => {
+
+    if(title.current.value.trim() === "" || author.current.value.trim() === "" || description.current.value === "") {
+      Swal.fire({
+        title: 'Please fill the blank',
+        text: 'You cannot leave any of the input blank',
+        icon: 'error'
+      })
+      return
+    }
+
+    if(files.length === 0) {
+      Swal.fire({
+        title: 'Please add at least one image',
+        icon: 'error'
+      })
+      return
+    }
+
+    const urls: { secure_url: string; public_id: string }[] = []
+
+    setSubmitState('loading')
+    await Promise.all(files.map(async (image: any) => {
+      const formData = new FormData()
+      formData.append('upload_preset', 'muids-homeroom-hub')
+      formData.append('file', image)
+  
+      const uploadImageResponse = await fetch('https://api.cloudinary.com/v1_1/dcxhciyca/image/upload', {
+        method: 'POST',
+        body: formData
+      }).then(r => r.json())
+        .catch(err => {
+          console.log('ERROR | post image')
+        })
+  
+        const { secure_url, public_id } = uploadImageResponse
+
+        if(!secure_url || !public_id) {
+          Swal.fire({
+            title: 'An error occured!',
+            text: 'Please contact the admin to solve this problem!',
+            icon: 'error'
+          })
+          return
+        }
+
+        urls.push({
+          secure_url,
+          public_id
+        })
+    }))
+  
+
+
+      const result = await axios.post('/api/posts/uploadPost', {
+  
+          author: author.current.value,
+          title: title.current.value,
+          description: description.current.value,
+          post_pic: urls
+        
+      })
+    
+      
 
     title.current.value = ""
     author.current.value = ""
     description.current.value = ""
     setFiles([])
+    setSubmitState('done')
+
+    
   }
 
 
   return (
     <div className='relative w-screen md:w-full flex justify-center items-center'>
       { status === "unauthenticated" && !session && 
+
         <div className='flex flex-col justify-center items-center h-screen w-screen space-y-5'>
           <Locked className='w-40 h-40 sm:w-48 sm:h-48 md:h-56 md:w-56 lg:w-72 lg:h-72 text-gray-400 dark:text-gray-300'></Locked>
           <div onClick={onSignIn} className='cursor-pointer font-mont font-bold text-xl  w-32 h-12 md:w-36 md:h-14 lg:w-40 lg:h-16 flex justify-center items-center rounded-lg border transition-all duration-100 ease-in-out text-gray-500 hover:text-white hover:bg-gray-500 dark:text-white dark:hover:bg-white dark:hover:text-secondary-dark'>
             Sign in
           </div>
         </div>
+
+
       }
 
       { status === "loading" && 
@@ -201,18 +265,14 @@ const Create: NextPage = () => {
                 </div>
 
                 <div>
-                  <input onClick={(e) => onFileSelected(e)} id="files" type="file" className='hidden' multiple accept="image/jpeg, image/png, image/jpg" />
-                  <label htmlFor="files" className='p-1 text-main-dark bg-white font-mont border dark:border-none'>Select File</label>
+                  <input onClick={(e) => onFileSelected(e)} id="files" type="file" className='hidden ' multiple accept="image/jpeg, image/png, image/jpg" />
+                  <label htmlFor="files" className='p-1 text-main-dark bg-white font-mont border dark:border-none cursor-pointer transition-all duration-100 ease-in-out hover:bg-main-dark hover:text-white'>Select File</label>
                 </div>
 
 
               </div>
 
               <div className='mt-2 h-[25rem] w-full mb-6 grid grid-cols-2 grid-flow-row lg:grid-rows-1 lg:grid-cols-none lg:grid-flow-col gap-5'>
-
-                  {/* <div className="w-full h-full aspect-w-1 aspect-h-1 relative mx-auto overflow-hidden flex row-span-1 bg-white transition-all ease-in-out duration-100">
-                      <Image src={'https://cdn.britannica.com/39/7139-050-A88818BB/Himalayan-chocolate-point.jpg'} alt={'cat'} fill className='object-cover'></Image>
-                    </div> */}
                   
 
                 { files && files.length !== 0 && files.map((_n: any, i: string | number) => {
@@ -230,7 +290,7 @@ const Create: NextPage = () => {
             </div>
 
             <div className=" w-full flex justify-end items-center">
-              <div onClick={onSubmit} className="p-2 px-4 text-main-dark bg-white font-mont border dark:border-none">Submit</div>
+              <div onClick={onSubmit} className="cursor-pointer p-2 px-4 text-main-dark bg-white font-mont border dark:border-none transition-all duration-100 ease-in-out hover:bg-main-dark hover:text-white">{ submitState === 'loading' ? 'Loading' : 'Submit'}</div>
             </div>
 
 

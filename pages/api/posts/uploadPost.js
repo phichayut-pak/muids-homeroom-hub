@@ -7,14 +7,14 @@ const handler = async (req, res) => {
     return
   } 
 
-  const { profile_pic, author, post_pic, title, description } = req.body
-
+  const { author, post_pic, title, description } = req.body
+  
   const client = await connectToDatabase()
   const db = client.db('posts')
   const postsCollection = db.collection('posts')
 
   const result = await postsCollection.insertOne({
-    profile_pic,
+    profile_pic: 'https://res.cloudinary.com/dcxhciyca/image/upload/v1682948959/muids-homeroom-hub/muids-logo_reried.png',
     author,
     post_pic,
     like: 0,
@@ -25,6 +25,7 @@ const handler = async (req, res) => {
 
   res.status(200).json({
     result
+    // message: 'success'
   })
 
   client.close()
