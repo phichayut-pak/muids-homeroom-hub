@@ -130,7 +130,7 @@ const Create: NextPage = () => {
           post_pic: urls
         
       })
-
+      
     
       
 

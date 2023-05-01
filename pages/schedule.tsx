@@ -43,8 +43,8 @@ const Schedule: NextPage = () => {
 
             {/* Grade (10, 11, 12) */}
             <div className='space-x-2'>
-              <label htmlFor="grade" className='text-white font-mont text-xl'>Grade</label>
-              <select  name="grade" id="grade" className='px-2 py-1 text-xl border border-black bg-whte text-black font-mont outline-none'>
+              <label htmlFor="grade" className='text-black dark:text-white font-mont text-xl '>Grade</label>
+              <select  name="grade" id="grade" className='rounded-none px-2 py-1 text-xl border border-black bg-white text-black font-mont outline-none'>
                 <option value="10" className='text-xl font-mont'>10</option>
                 <option value="11" className='text-xl font-mont'>11</option>
                 <option value="12" className='text-xl font-mont'>12</option>
@@ -53,8 +53,8 @@ const Schedule: NextPage = () => {
 
             {/* Class (01 - 12) */}
             <div className="space-x-2">
-            <label htmlFor="class" className='text-white font-mont text-xl'>Class</label>
-              <select  name="class" id="class" className='px-2 py-1 text-xl border border-black bg-whte text-black font-mont outline-none'>
+            <label htmlFor="class" className='text-black dark:text-white font-mont text-xl'>Class</label>
+              <select  name="class" id="class" className='rounded-none px-2 py-1 text-xl border border-black bg-white text-black font-mont outline-none'>
                 <option value="01" className='text-xl font-mont'>01</option>
                 <option value="02" className='text-xl font-mont'>02</option>
                 <option value="03" className='text-xl font-mont'>03</option>
