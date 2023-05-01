@@ -24,7 +24,7 @@ const Layout: FC<Layout> = ({ children }) => {
 
   useEffect(() => {
 
-    if(status !== 'loading') {
+    if(status === 'authenticated') {
 
       if(pathname === '/') {
   
@@ -95,7 +95,7 @@ const Layout: FC<Layout> = ({ children }) => {
     // every windowHeight as much as possible
     // for responsive
     if(postElement) {
-      if(status !== 'loading') {
+      if(status === 'authenticated') {
 
         if(pathname === '/') {
           // for smallest responsive design in this

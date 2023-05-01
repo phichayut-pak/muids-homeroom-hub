@@ -121,7 +121,7 @@ const Home: NextPage = () => {
       
       { status === "unauthenticated" && !session && 
 
-        <div className='flex flex-col justify-center items-center h-screen w-screen space-y-5'>
+        <div className='border flex flex-col justify-center items-center h-screen w-screen space-y-5'>
           <Locked className='w-40 h-40 sm:w-48 sm:h-48 md:h-56 md:w-56 lg:w-72 lg:h-72 text-gray-400 dark:text-gray-300'></Locked>
           <div onClick={onSignIn} className='cursor-pointer font-mont font-bold text-xl  w-32 h-12 md:w-36 md:h-14 lg:w-40 lg:h-16 flex justify-center items-center rounded-lg border transition-all duration-100 ease-in-out text-gray-500 hover:text-white hover:bg-gray-500 dark:text-white dark:hover:bg-white dark:hover:text-secondary-dark'>
             Sign in
