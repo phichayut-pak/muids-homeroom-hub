@@ -9,6 +9,11 @@ import 'swiper/css';
 import "swiper/css/pagination";
 import { useSession } from 'next-auth/react'
 import { format,  } from 'timeago.js';
+import { Ellipsis } from '../Icons/Ellipsis'
+import Popover from "@mui/material/Popover";
+import { Bin } from '../Icons/Bin'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 
 SwiperCore.use([Navigation, Pagination]);
@@ -34,6 +39,22 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [showLike, setShowLike] = useState<number>(like)
   const swiperRef: any = useRef(); 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+
 
 
 
@@ -77,6 +98,27 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
   const onShowClicked = () => {
     setIsShown(true)
 
+  }
+
+  const handleOnRemovePost = async () => {
+    const result = await axios.patch(`/api/posts/deletePost`, {
+
+        _id
+      
+    })
+
+    if(result.status === 200) {
+      Swal.fire({
+        title: 'Post deleted successfully',
+        icon: 'success'
+      })
+    } else {
+      Swal.fire( {
+        title: 'Post deleted unsuccessfully',
+        text: 'Please contact admin for more information',
+        icon: 'error'
+      })
+    }
   }
 
   const onPostDoubleClicked = () => {
@@ -178,13 +220,38 @@ const Post: FC<Post> = ({ _id, profile_pic, author, post_pic, like, time, title,
       {/* Author and Profile Pic */}
       <div className="inline-flex">
         {/* Profile Pic */}
-        <div className='p-3 relative mx-auto w-full overflow-hidden flex space-x-5'>
+        <div className='p-3 relative mx-auto w-full flex overflow-hidden justify-between items-center'>
+          <div className='flex justify-center items-center space-x-3'>
+
             <div className='w-10 h-10'>
               <div className='w-full h-full aspect-w-1 aspect-h-1 overflow-hidden rounded-sm'>
                 <Image src={profile_pic} alt="MUIDS" width={9999} height={9999} className='object-cover w-full h-full'></Image>
               </div>
             </div>
+            
             <div className='mt-1.5 font-mont text-black dark:text-black'>{ author } • <span className='font-mont text-gray-800 text-[0.7rem] sm:text-xs '>{ format(time) }{post_pic.length === 1}</span> </div>
+          </div>
+            
+            <div onClick={handleClick} className='cursor-pointer'>
+              <Ellipsis  className={`${session && session?.user?.isAdmin ? '' : 'hidden'} w-8 h-8 `}></Ellipsis>
+
+            </div>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "right"
+              }}
+            >
+              <div onClick={handleOnRemovePost} className='cursor-pointer p-2 px-3 font-mont text-red-500 text-sm flex'>
+                Delete <span><Bin className={'ml-1 w-5 h-5'}></Bin></span>
+              </div>
+
+            </Popover>
+  
           </div>
       </div>
 
