@@ -1,34 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# MUIDS Homeroom Hub
 
-First, run the development server:
+![huddle-landing-page](https://i.ibb.co/D4y7yJ2/Screen-Shot-2567-08-28-at-01-27-32.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Overview
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The School Homeroom Hub is a mobile-friendly web platform designed to replace traditional PowerPoint slides used during homeroom. The website enables students to view daily announcements, schedules, and updates by scrolling through content as if they were on social media platforms like Instagram or Facebook. By offering a seamless and familiar user experience, the Homeroom Hub encourages engagement and ensures that students can stay updated efficiently through their smartphones. This project is built as a capstone project to meet G11's requirements. 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+## Inspiration
 
-To learn more about Next.js, take a look at the following resources:
+The inspiration for this project came from the need to modernize how information is presented during homeroom sessions. PowerPoint slides can be outdated and static, often requiring students to focus on a large screen in front of the room. I wanted to create something dynamic and engaging, allowing students to access information on their personal devices, much like scrolling through their favorite social media platforms such as Instagram. This design not only increases accessibility but also enhances the overall experience by making it more interactive and intuitive.
+## Tech Stack
+- Frontend - NextJS, TypeScript, TailwindCSS
+- Backend - NodeJS, NextAuth
+- Database - MongoDB
+- Hosting - Vercel
+- Tools - Figma (Design)
+## Challenge
+One of the biggest challenges I faced during the development of the School Homeroom Hub was integrating the database with authentication using NextAuth. I aimed to implement role-based access control, ensuring that admins could add, edit, and delete content, while regular users could only view information. However, configuring NextAuth to handle role-based authentication was not as straightforward as expected.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NextAuth, while powerful, lacked the customizability I needed to easily implement these role distinctions. Managing user roles and restricting access to certain features based on permissions became a challenge. I had to find workarounds to customize the behavior and ensure that the right user had the appropriate level of access. This was an important aspect of ensuring the integrity and security of the platform.
+## What could be improved
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+While the current iteration of the School Homeroom Hub successfully replaces PowerPoint slides and offers a user-friendly interface, there are several areas that could be improved in future versions:
 
-## Deploy on Vercel
+- Push Notifications: Implement push notifications to ensure students never miss important updates.
+- Admin Panel: Develop a user-friendly admin panel for teachers and staff to easily update announcements and schedules.
+- Offline Mode: Create an offline mode for users to access content when they don't have an internet connection.
+- Analytics: Add features that track student engagement and viewership to help improve content delivery.
+- Mobile Application: Turn the whole website into an application that can be accessed even easier.
+- Separate Backend: Implement a customizable system storing the logic of the page and authentication.
+- Real-time update (SocketIO): Add features that users can chat with each other making the whole project elevated to a new level.
+## Link
+[Link](https://muids-homeroom-hub.vercel.app/) 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Test Username: test123
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Test Password: test123
